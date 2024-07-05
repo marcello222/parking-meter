@@ -15,4 +15,6 @@ public interface VehicleService {
 
     public List<VehicleEntity> getAllVehicles();
 
+    public void deleteVehicle(String id);
+
 }

@@ -50,4 +50,9 @@ public class VehicleServiceImpl implements VehicleService {
     public List<VehicleEntity> getAllVehicles() {
         return vehicleRepository.findAll();
     }
+
+    @Override
+    public void deleteVehicle(String id) {
+        vehicleRepository.deleteById(id);
+    }
 }

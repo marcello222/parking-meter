@@ -35,4 +35,10 @@ public class VehicleController {
         List<VehicleEntity> vehicles = this.vehicleService.getAllVehicles();
         return ResponseEntity.ok().body(vehicles);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVehicle(@PathVariable("id") String id) {
+        this.vehicleService.deleteVehicle(id);
+        return ResponseEntity.noContent().build();
+    }
 }

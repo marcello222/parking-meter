@@ -10,4 +10,6 @@ public interface DriverMapper {
 
     @Mapping(target = "id", ignore = true)
     DriverEntity toEntity(DriverDto driverDto);
+
+
 }

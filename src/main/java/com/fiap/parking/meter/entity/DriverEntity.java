@@ -27,4 +27,7 @@ public class DriverEntity {
     private String phone;
 
     private String address;
+
+    @DBRef
+    private List<VehicleEntity> vehicles;
 }

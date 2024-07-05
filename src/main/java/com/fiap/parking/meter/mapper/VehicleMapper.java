@@ -9,5 +9,6 @@ import org.mapstruct.Mapping;
 public interface VehicleMapper {
 
     @Mapping(target = "id", ignore = true)
-    VehicleEntity toEntity(VehicleDto driverDto);
+    VehicleEntity toEntity(VehicleDto vehicleDto);
+
 }
