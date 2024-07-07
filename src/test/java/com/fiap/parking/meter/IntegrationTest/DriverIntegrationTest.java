@@ -43,7 +43,7 @@ public class DriverIntegrationTest {
 
     @Test
     public void testCreateAndGetDriver() throws Exception {
-        DriverDto driverDto = DriverTemplateDto.DriverTemplate();
+        DriverDto driverDto = DriverTemplateDto.driverTemplate();
 
         MvcResult result = mockMvc.perform(post("/driver")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +94,7 @@ public class DriverIntegrationTest {
 
     @Test
     public void testUpdateDriver() throws Exception {
-        DriverDto driverDto = DriverTemplateDto.DriverTemplate();
+        DriverDto driverDto = DriverTemplateDto.driverTemplate();
 
         // post the driver
         MvcResult result = mockMvc.perform(post("/driver")
@@ -145,7 +145,7 @@ public class DriverIntegrationTest {
     @Test
     public void testLinkVehicleToDriver() throws Exception {
         // Create a DriverDto with vehicles using the template
-        DriverDto driverWithVehicles = DriverTemplateDto.DriverTemplate();
+        DriverDto driverWithVehicles = DriverTemplateDto.driverTemplate();
 
         // Save the driver to the database to ensure the ID exists
         MvcResult result = mockMvc.perform(post("/driver")
@@ -159,7 +159,7 @@ public class DriverIntegrationTest {
         String createdDriverId = JsonPath.parse(response).read("$.id");
 
         // Create the vehicles using the template
-        List<VehicleDto> vehicles = VehicleTemplateDto.TwoVehiclesTemplate();
+        List<VehicleDto> vehicles = VehicleTemplateDto.twoVehiclesTemplate();
 
         // Perform a POST request to link vehicles to the driver
         result = mockMvc.perform(post("/driver/" + createdDriverId + "/vehicles")

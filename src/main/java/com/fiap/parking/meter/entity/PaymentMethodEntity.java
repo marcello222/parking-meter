@@ -22,7 +22,7 @@ public class PaymentMethodEntity {
 
     private String description;
 
-    private int paymentMethod;
+    private Integer paymentMethod;
 
     @DBRef
     private DriverEntity driver;

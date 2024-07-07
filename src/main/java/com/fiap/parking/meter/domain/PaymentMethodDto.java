@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PaymentMethodDto {
 
-    private String id;
-
     private String description;
 
     private int paymentMethod;

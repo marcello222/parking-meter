@@ -8,27 +8,32 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "driver")
-public class DriverEntity {
+@Document(collection = "parking")
+public class ParkingEntity {
 
     @Id
     private String id;
 
-    private String name;
+    private LocalDateTime startDate;
 
-    private String email;
+    private LocalDateTime endDate;
 
-    private String phone;
+    private Integer parkingTypeCode;
 
-    private String address;
+    private Double value;
 
     @DBRef
-    private List<VehicleEntity> vehicles;
+    private VehicleEntity vehicle;
 
+    @DBRef
+    private PaymentMethodEntity paymentMethod;
+
+    @DBRef
+    private DriverEntity driver;
 }

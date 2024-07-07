@@ -45,7 +45,7 @@ public class VehicleIntegrationTest {
 
     @Test
     public void testCreateVehicleWithExistingDriver() throws Exception {
-        DriverDto driverRequest = DriverTemplateDto.DriverTemplate();
+        DriverDto driverRequest = DriverTemplateDto.driverTemplate();
 
         MvcResult driverResult = mockMvc.perform(post("/driver")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -56,7 +56,7 @@ public class VehicleIntegrationTest {
         String driverResponse = driverResult.getResponse().getContentAsString();
         String createdDriverId = JsonPath.parse(driverResponse).read("$.id");
 
-        VehicleDto vehicleRequest = VehicleTemplateDto.VehicleTemplate();
+        VehicleDto vehicleRequest = VehicleTemplateDto.vehicleTemplate();
         vehicleRequest.setDriverId(createdDriverId);
 
         MvcResult vehicleResult = mockMvc.perform(post("/vehicle")

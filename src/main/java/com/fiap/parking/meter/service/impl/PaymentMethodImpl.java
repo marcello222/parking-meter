@@ -3,7 +3,7 @@ package com.fiap.parking.meter.service.impl;
 import com.fiap.parking.meter.domain.PaymentMethodDto;
 import com.fiap.parking.meter.entity.DriverEntity;
 import com.fiap.parking.meter.entity.PaymentMethodEntity;
-import com.fiap.parking.meter.enums.PaymentMethod;
+import com.fiap.parking.meter.enums.PaymentMethodType;
 import com.fiap.parking.meter.exception.DriverNotFoundException;
 import com.fiap.parking.meter.mapper.PaymentMethodMapper;
 import com.fiap.parking.meter.repository.DriverRepository;
@@ -40,11 +40,11 @@ public class PaymentMethodImpl implements PaymentMethodService {
         return newPaymentMethod;
     }
 
-    public PaymentMethod getPaymentMethodFromInt(int value) {
+    public PaymentMethodType getPaymentMethodFromInt(int value) {
         return switch (value) {
-            case 1 -> PaymentMethod.CREDIT_CARD;
-            case 2 -> PaymentMethod.DEBIT_CARD;
-            case 3 -> PaymentMethod.PIX;
+            case 1 -> PaymentMethodType.CREDIT_CARD;
+            case 2 -> PaymentMethodType.DEBIT_CARD;
+            case 3 -> PaymentMethodType.PIX;
             default -> throw new IllegalArgumentException("Invalid PaymentMethod value: " + value);
         };
     }

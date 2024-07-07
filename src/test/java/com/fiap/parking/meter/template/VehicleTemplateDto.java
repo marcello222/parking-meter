@@ -1,7 +1,6 @@
 package com.fiap.parking.meter.template;
 
 import com.fiap.parking.meter.domain.VehicleDto;
-import com.fiap.parking.meter.entity.VehicleEntity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class VehicleTemplateDto {
 
-    public static VehicleDto VehicleTemplate() {
+    public static VehicleDto vehicleTemplate() {
         return VehicleDto.builder()
                 .licensePlate("ABC-1234")
                 .model("Uno")
@@ -18,7 +17,7 @@ public class VehicleTemplateDto {
     }
 
 
-    public static List<VehicleDto> TwoVehiclesTemplate() {
+    public static List<VehicleDto> twoVehiclesTemplate() {
         VehicleDto vehicle1 = VehicleDto.builder()
                 .licensePlate("aaaaa")
                 .model("Uno")
