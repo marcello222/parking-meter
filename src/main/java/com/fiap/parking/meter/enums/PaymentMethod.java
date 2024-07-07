@@ -2,9 +2,19 @@ package com.fiap.parking.meter.enums;
 
 public enum PaymentMethod {
 
-    CREDIT_CARD,
+    CREDIT_CARD(1),
 
-    DEBIT_CARD,
+    DEBIT_CARD(2),
 
-    PIX
+    PIX(3);
+
+    private final int value;
+
+    PaymentMethod(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }

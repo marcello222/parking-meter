@@ -95,7 +95,7 @@ public class DriveServiceImpl implements DriverService {
 
         vehicles.forEach(vehicleDto -> {
             VehicleEntity vehicle = vehicleMapper.toEntity(vehicleDto);
-            vehicle = vehicleRepository.save(vehicle); // Save the vehicle to generate an ID
+            vehicle = vehicleRepository.save(vehicle);
             driver.getVehicles().add(vehicle);
         });
 
