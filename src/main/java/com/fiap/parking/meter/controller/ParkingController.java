@@ -6,10 +6,7 @@ import com.fiap.parking.meter.service.ParkingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/parking")
@@ -23,5 +20,12 @@ public class ParkingController {
         ParkingEntity newParking = parkingService.createParking(parkingDto);
         return new ResponseEntity<>(newParking, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ParkingEntity> getParking(@PathVariable String id) {
+        ParkingEntity parking = parkingService.getParking(id);
+        return new ResponseEntity<>(parking, HttpStatus.OK);
+    }
+
 
 }

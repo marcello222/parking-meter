@@ -7,4 +7,6 @@ public interface ParkingService {
 
     public ParkingEntity createParking(ParkingDto parkingDto);
 
+    public ParkingEntity getParking(String id);
+
 }

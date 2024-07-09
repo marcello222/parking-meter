@@ -17,4 +17,6 @@ public class PaymentMethodDto {
 
     private String driverId;
 
+    private String parkingId;
+
 }
