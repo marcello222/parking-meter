@@ -26,6 +26,8 @@ public class ParkingEntity {
 
     private Integer parkingTypeCode;
 
+    private Integer parkingDuration;
+
     private Double value;
 
     @DBRef

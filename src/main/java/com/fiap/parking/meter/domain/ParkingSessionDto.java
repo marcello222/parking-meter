@@ -11,21 +11,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ParkingDto {
+public class ParkingSessionDto {
 
-    private LocalDateTime startDate;
+    private LocalDateTime startTime;
 
-    private LocalDateTime endDate;
+    private LocalDateTime endTime;
 
-    private Integer parkingDuration;
-
-    private Integer parkingTypeCode;
-
-    private Double value;
+    private String driverId;
 
     private String vehicleId;
 
-    private String paymentMethodId;
+    private Integer parkingTypeCode;
 
-    private String driverId;
+
 }

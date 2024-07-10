@@ -11,7 +11,6 @@ import com.fiap.parking.meter.repository.DriverRepository;
 import com.fiap.parking.meter.repository.PaymentMethodRepository;
 import com.fiap.parking.meter.service.PaymentMethodService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -33,7 +32,7 @@ public class PaymentMethodImpl implements PaymentMethodService {
 
     @Override
     public PaymentMethodEntity createPaymentMethod(PaymentMethodDto paymentMethodDto) {
-        DriverEntity driver = driverRepository.findById(paymentMethodDto.getDriverId()).orElseThrow(DriverNotFoundException::new);
+       DriverEntity driver = driverRepository.findById(paymentMethodDto.getDriverId()).orElseThrow(DriverNotFoundException::new);
 
         getPaymentMethodFromInt(paymentMethodDto.getPaymentMethod());
 
@@ -49,12 +48,10 @@ public class PaymentMethodImpl implements PaymentMethodService {
     public PaymentMethodEntity updatePaymentMethod(String id, PaymentMethodDto paymentMethodDto) {
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(id).orElseThrow(PaymentMethodNotFoundException::new);
 
-
-
         getPaymentMethodFromInt(paymentMethodDto.getPaymentMethod());
 
-      if (Objects.nonNull(paymentMethodDto.getPaymentMethod())) {
-          paymentMethod.setPaymentMethod(paymentMethodDto.getPaymentMethod());
+        if (Objects.nonNull(paymentMethodDto.getPaymentMethod())) {
+            paymentMethod.setPaymentMethod(paymentMethodDto.getPaymentMethod());
         }
         if (Objects.nonNull(paymentMethodDto.getDescription())) {
             paymentMethod.setDescription(paymentMethodDto.getDescription());

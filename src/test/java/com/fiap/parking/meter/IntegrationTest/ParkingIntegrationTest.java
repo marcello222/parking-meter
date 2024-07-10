@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -114,7 +115,7 @@ public class ParkingIntegrationTest {
     }
 
     @Test
-    public void testShouldCreatedParking_with_ParkingPeriodType_FIXED_PERIOD_with_PaymentMethodType_PIX() throws Exception {
+    public void testShouldCreatedParking_with_ParkingPeriodType_PER_HOUR_with_PaymentMethodType_CREDIT() throws Exception {
         DriverDto driverDto = DriverTemplateDto.driverTemplate();
 
         MvcResult result = mockMvc.perform(post("/driver")
@@ -168,9 +169,56 @@ public class ParkingIntegrationTest {
                 .andReturn();
 
 
-        assertEquals(PaymentMethodType.PIX.getValue(), 3);
+        assertEquals(PaymentMethodType.DEBIT_CARD.getValue(), 2);
 
     }
 
+    @Test
+    public void testShouldnOTCreatedParking_with_ParkingPeriodType_PER_HOUR_with_PaymentMethodType_PIX() throws Exception {
+        DriverDto driverDto = DriverTemplateDto.driverTemplate();
+
+        MvcResult result = mockMvc.perform(post("/driver")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(driverDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String driverId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        PaymentMethodDto paymentMethodDto = PaymentMethodTemplateDto.paymentMethodTemplate();
+        paymentMethodDto.setPaymentMethod(3);
+        paymentMethodDto.setDriverId(driverId);
+
+        result = mockMvc.perform(post("/payment-method")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(paymentMethodDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String paymentMethodId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        VehicleDto vehicleDto = VehicleTemplateDto.vehicleTemplate();
+        vehicleDto.setDriverId(driverId);
+
+        result = mockMvc.perform(post("/vehicle")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(vehicleDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String vehicleId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        ParkingDto parkingDto = ParkingTemplateDto.parkingTemplate();
+        parkingDto.setDriverId(driverId);
+        parkingDto.setPaymentMethodId(paymentMethodId);
+        parkingDto.setVehicleId(vehicleId);
+
+
+       mockMvc.perform(post("/parking")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(parkingDto)))
+                .andExpect(status().isConflict())
+               .andExpect(content().string("Payment method PIX is not allowed for hourly parking"));
+    }
 
 }
