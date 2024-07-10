@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: on-failure
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - parking-meter
+    tty: true
+
+  myapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mongodb
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/parking-meter
+    networks:
+      - parking-meter
+    tty: true
+
+networks:
+  parking-meter:
+    driver: bridge
+
+volumes:
+  mongodb_data:

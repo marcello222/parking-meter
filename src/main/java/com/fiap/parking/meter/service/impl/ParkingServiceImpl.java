@@ -4,17 +4,14 @@ import com.fiap.parking.meter.domain.ParkingDto;
 import com.fiap.parking.meter.entity.DriverEntity;
 import com.fiap.parking.meter.entity.ParkingEntity;
 import com.fiap.parking.meter.entity.VehicleEntity;
-import com.fiap.parking.meter.enums.ParkingPeriodType;
 import com.fiap.parking.meter.exception.DriverNotFoundException;
 import com.fiap.parking.meter.exception.VehicleNotAssociatedWithDriverException;
 import com.fiap.parking.meter.mapper.ParkingMapper;
 import com.fiap.parking.meter.repository.DriverRepository;
 import com.fiap.parking.meter.repository.ParkingRepository;
-import com.fiap.parking.meter.repository.PaymentMethodRepository;
 import com.fiap.parking.meter.repository.VehicleRepository;
 import com.fiap.parking.meter.service.ParkingPeriodStrategy;
 import com.fiap.parking.meter.service.ParkingService;
-import com.fiap.parking.meter.service.PaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -28,11 +25,7 @@ public class ParkingServiceImpl implements ParkingService {
 
     private final VehicleRepository vehicleRepository;
 
-    private final PaymentMethodRepository paymentMethodRepository;
-
     private final ParkingMapper parkingMapper;
-
-    private final PaymentMethodService paymentMethodService;
 
     private final ParkingPeriodStrategy fixedPeriodStrategy;
 
@@ -44,8 +37,6 @@ public class ParkingServiceImpl implements ParkingService {
             DriverRepository driverRepository,
             VehicleRepository vehicleRepository,
             ParkingMapper parkingMapper,
-            PaymentMethodRepository paymentMethodRepository,
-            PaymentMethodService paymentMethodService,
             @Qualifier("perHourImpl") ParkingPeriodStrategy perHourStrategy,
             @Qualifier("fixedPeriodImpl") ParkingPeriodStrategy fixedPeriodStrategy
     ) {
@@ -53,8 +44,6 @@ public class ParkingServiceImpl implements ParkingService {
         this.parkingRepository = parkingRepository;
         this.vehicleRepository = vehicleRepository;
         this.parkingMapper = parkingMapper;
-        this.paymentMethodRepository = paymentMethodRepository;
-        this.paymentMethodService = paymentMethodService;
         this.perHourStrategy = perHourStrategy;
         this.fixedPeriodStrategy = fixedPeriodStrategy;
     }
@@ -65,13 +54,18 @@ public class ParkingServiceImpl implements ParkingService {
         DriverEntity driver = driverRepository.findById(parkingDto.getDriverId()).orElseThrow(DriverNotFoundException::new);
         VehicleEntity vehicle = vehicleRepository.findById(parkingDto.getVehicleId()).orElseThrow(VehicleNotAssociatedWithDriverException::new);
 
-        ParkingEntity parking = parkingMapper.toEntity(parkingDto);
-
-        if (parkingDto.getParkingTypeCode() == ParkingPeriodType.FIXED_PERIOD.getValue()) {
-            fixedPeriodStrategy.applyParkingPeriod(parkingDto);
-        } else {
-            perHourStrategy.applyParkingPeriod(parkingDto);
+        switch (parkingDto.getParkingTypeCode()) {
+            case 1:
+                fixedPeriodStrategy.applyParkingPeriod(parkingDto);
+                break;
+            case 2:
+                perHourStrategy.applyParkingPeriod(parkingDto);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid parking type code");
         }
+
+        ParkingEntity parking = parkingMapper.toEntity(parkingDto);
 
         parking.setDriver(driver);
         parking.setVehicle(vehicle);

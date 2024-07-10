@@ -12,7 +12,7 @@
 	<artifactId>parking-meter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>parking-meter</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Trabalho de Conclusão FIAP Modulo 2r</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -70,6 +70,11 @@
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-sns</artifactId>
 			<version>1.12.62</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
 		</dependency>
 	</dependencies>
 
