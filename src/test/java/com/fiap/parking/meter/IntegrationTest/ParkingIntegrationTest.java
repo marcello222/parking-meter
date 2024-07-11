@@ -153,7 +153,6 @@ public class ParkingIntegrationTest {
         parkingDto.setPaymentMethodId(paymentMethodId);
         parkingDto.setVehicleId(vehicleId);
 
-
         result = mockMvc.perform(post("/parking")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(parkingDto)))
@@ -168,13 +167,12 @@ public class ParkingIntegrationTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-
         assertEquals(PaymentMethodType.DEBIT_CARD.getValue(), 2);
 
     }
 
     @Test
-    public void testShouldnOTCreatedParking_with_ParkingPeriodType_PER_HOUR_with_PaymentMethodType_PIX() throws Exception {
+    public void testShouldNotCreatedParking_with_ParkingPeriodType_PER_HOUR_with_PaymentMethodType_PIX() throws Exception {
         DriverDto driverDto = DriverTemplateDto.driverTemplate();
 
         MvcResult result = mockMvc.perform(post("/driver")
