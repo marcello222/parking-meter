@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:latest
-    container_name: mongodb
+    container_name: mongodb-parking-meter
     restart: on-failure
     ports:
       - "27017:27017"
@@ -19,6 +19,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mongodb
+    container_name: backend-parking-meter
     ports:
       - "8080:8080"
     environment:
