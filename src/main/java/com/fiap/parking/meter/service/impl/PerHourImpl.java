@@ -4,11 +4,14 @@ import com.fiap.parking.meter.domain.ParkingDto;
 import com.fiap.parking.meter.entity.PaymentMethodEntity;
 import com.fiap.parking.meter.enums.ParkingPeriodType;
 import com.fiap.parking.meter.enums.PaymentMethodType;
+import com.fiap.parking.meter.enums.PriceHour;
 import com.fiap.parking.meter.repository.PaymentMethodRepository;
 import com.fiap.parking.meter.service.ParkingPeriodStrategy;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 
 @AllArgsConstructor
@@ -20,8 +23,14 @@ public class PerHourImpl implements ParkingPeriodStrategy {
     @Override
     public void applyParkingPeriod(ParkingDto parkingDto) {
         validate(parkingDto);
-        //TODO implementar lógica de cálculo de valor por hora
+        parkingDto.setStartDate(LocalDateTime.now());
+        parkingDto.setEndDate(parkingDto.getStartDate().plusHours(parkingDto.getParkingDuration()));
+        parkingDto.setValue(parkingDto.getParkingDuration() * PriceHour.PRICER_HOUR.getValue());
+
+        //TODO
+
     }
+
 
     public void validate(ParkingDto parkingDto) {
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(parkingDto.getPaymentMethodId()).orElseThrow();
@@ -31,4 +40,5 @@ public class PerHourImpl implements ParkingPeriodStrategy {
             }
         }
     }
+
 }

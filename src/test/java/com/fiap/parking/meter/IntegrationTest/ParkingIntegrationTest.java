@@ -167,8 +167,8 @@ public class ParkingIntegrationTest {
 
         MvcResult getParkingResult = mockMvc.perform(get("/parking/" + parkingId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+                        .andExpect(status()
+                        .isOk()).andReturn();
 
         assertEquals(PaymentMethodType.DEBIT_CARD.getValue(), 2);
 
