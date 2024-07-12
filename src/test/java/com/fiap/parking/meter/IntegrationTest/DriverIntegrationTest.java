@@ -3,6 +3,7 @@ package com.fiap.parking.meter.IntegrationTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.parking.meter.domain.DriverDto;
 import com.fiap.parking.meter.domain.VehicleDto;
+import com.fiap.parking.meter.entity.DriverEntity;
 import com.fiap.parking.meter.repository.DriverRepository;
 import com.fiap.parking.meter.template.DriverTemplateDto;
 import com.fiap.parking.meter.template.VehicleTemplateDto;
@@ -60,12 +61,12 @@ public class DriverIntegrationTest {
                 .andReturn();
 
         response = result.getResponse().getContentAsString();
-        DriverDto returnedDriverDto = objectMapper.readValue(response, DriverDto.class);
+        DriverEntity returnedDriverEntity = objectMapper.readValue(response, DriverEntity.class);
 
-        assertEquals(driverDto.getName(), returnedDriverDto.getName());
-        assertEquals(driverDto.getEmail(), returnedDriverDto.getEmail());
-        assertEquals(driverDto.getPhone(), returnedDriverDto.getPhone());
-        assertEquals(driverDto.getAddress(), returnedDriverDto.getAddress());
+        assertEquals(driverDto.getName(), returnedDriverEntity.getName());
+        assertEquals(driverDto.getEmail(), returnedDriverEntity.getEmail());
+        assertEquals(driverDto.getPhone(), returnedDriverEntity.getPhone());
+        assertEquals(driverDto.getAddress(), returnedDriverEntity.getAddress());
     }
 
     @Test
@@ -113,10 +114,10 @@ public class DriverIntegrationTest {
                 .andReturn();
 
         response = result.getResponse().getContentAsString();
-        DriverDto returnedDriverDto = objectMapper.readValue(response, DriverDto.class);
+        DriverEntity returnedDriverEntity = objectMapper.readValue(response, DriverEntity.class);
 
-        assertEquals(driverDto.getEmail(), returnedDriverDto.getEmail());
-        assertEquals(driverDto.getAddress(), returnedDriverDto.getAddress());
+        assertEquals(driverDto.getEmail(), returnedDriverEntity.getEmail());
+        assertEquals(driverDto.getAddress(), returnedDriverEntity.getAddress());
 
         // update the email and address
         driverDto.setEmail("updatedEmail@example.com");
@@ -134,12 +135,12 @@ public class DriverIntegrationTest {
                 .andReturn();
 
         response = result.getResponse().getContentAsString();
-        returnedDriverDto = objectMapper.readValue(response, DriverDto.class);
+        returnedDriverEntity = objectMapper.readValue(response, DriverEntity.class);
 
 
         // Assert the updated fields
-        assertEquals(driverDto.getEmail(), returnedDriverDto.getEmail());
-        assertEquals(driverDto.getAddress(), returnedDriverDto.getAddress());
+        assertEquals(driverDto.getEmail(), returnedDriverEntity.getEmail());
+        assertEquals(driverDto.getAddress(), returnedDriverEntity.getAddress());
     }
 
     @Test
@@ -170,9 +171,9 @@ public class DriverIntegrationTest {
 
         // Parse the response
         response = result.getResponse().getContentAsString();
-        DriverDto returnedDriverDto = objectMapper.readValue(response, DriverDto.class);
+        DriverEntity returnedDriverEntity= objectMapper.readValue(response, DriverEntity.class);
 
-        assertEquals(2, returnedDriverDto.getVehicles().size());
+        assertEquals(2, returnedDriverEntity.getVehicles().size());
     }
 
 }
