@@ -336,4 +336,77 @@ public class ParkingIntegrationTest {
         assertEquals(parkingDtoRequest.getValue(), parkingEntityResponse.getValue());
 
     }
+
+    @Test
+    public void updateExitParking_withPerHourTest() throws Exception {
+        DriverDto driverDto = DriverTemplateDto.driverTemplate();
+
+        MvcResult result = mockMvc.perform(post("/driver")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(driverDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String driverId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        PaymentMethodDto paymentMethodDto = PaymentMethodTemplateDto.paymentMethodTemplate();
+        paymentMethodDto.setDriverId(driverId);
+
+        result = mockMvc.perform(post("/payment-method")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(paymentMethodDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String paymentMethodId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        VehicleDto vehicleDto = VehicleTemplateDto.vehicleTemplate();
+        vehicleDto.setDriverId(driverId);
+
+        result = mockMvc.perform(post("/vehicle")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(vehicleDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String vehicleId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        ParkingDto parkingDtoRequest = ParkingTemplateDto.parkingTemplate();
+        parkingDtoRequest.setDriverId(driverId);
+        parkingDtoRequest.setPaymentMethodId(paymentMethodId);
+        parkingDtoRequest.setVehicleId(vehicleId);
+        parkingDtoRequest.setParkingTypeCode(ParkingPeriodType.PER_HOUR.getValue());
+
+        result= mockMvc.perform(post("/parking")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(parkingDtoRequest)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String response = result.getResponse().getContentAsString();
+        String createdParking = JsonPath.parse(response).read("$.id");
+
+        result = mockMvc.perform(get("/parking/" + createdParking)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        response = result.getResponse().getContentAsString();
+        ParkingEntity parkingEntityResponse = objectMapper.readValue(response, ParkingEntity.class);
+
+        String id = parkingEntityResponse.getId();
+        ParkingDto parkingDto = new ParkingDto();
+
+        parkingDto.setParkingDuration(10);
+
+        MvcResult resultExit = mockMvc.perform(post("/parking/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(parkingDto)))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ParkingEntity responseParking = objectMapper.readValue(resultExit.getResponse().getContentAsString(), ParkingEntity.class);
+        assertEquals(10, responseParking.getParkingDuration());
+        assertEquals(responseParking.getValue(), 50);
+    }
 }

@@ -16,23 +16,24 @@ import java.util.Objects;
 @Service("fixedPeriodImpl")
 public class FixedPeriodImpl implements ParkingPeriodStrategy {
 
-    private final PaymentProcessService paymentProcessService;
 
     @Override
     public void applyParkingPeriod(ParkingDto parkingDto) {
         validate(parkingDto);
-
         parkingDto.setStartDate(LocalDateTime.now());
         parkingDto.setEndDate(parkingDto.getStartDate().plusHours(parkingDto.getParkingDuration()));
         parkingDto.setValue(parkingDto.getParkingDuration() * PriceHour.PRICER_HOUR.getValue());
-
-        paymentProcessService.paymentProcess(parkingDto);
-
-        //TODO: Configurar o alerta para avisar termino de duração com base no EndDate
-        // TODO: Emitir o recibo notermino de duração com base no EndDate
-
     }
 
+    @Override
+    public boolean supports(int parkingTypeCode) {
+        return ParkingPeriodType.FIXED_PERIOD.getValue() == parkingTypeCode;
+    }
+
+    @Override
+    public String generateAlertMessage() {
+        return "Your fixed period parking is about to expire.";
+    }
 
 
     public void validate(ParkingDto parkingDto) {

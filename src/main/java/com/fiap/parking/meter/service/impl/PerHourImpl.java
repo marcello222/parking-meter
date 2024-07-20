@@ -24,13 +24,20 @@ public class PerHourImpl implements ParkingPeriodStrategy {
     public void applyParkingPeriod(ParkingDto parkingDto) {
         validate(parkingDto);
         parkingDto.setStartDate(LocalDateTime.now());
-        parkingDto.setEndDate(parkingDto.getStartDate().plusHours(parkingDto.getParkingDuration()));
-        parkingDto.setValue(parkingDto.getParkingDuration() * PriceHour.PRICER_HOUR.getValue());
-
-        //TODO
-
+        parkingDto.setEndDate(null);
+        parkingDto.setParkingDuration(null);
+        parkingDto.setValue(null);
     }
 
+    @Override
+    public boolean supports(int parkingTypeCode) {
+        return ParkingPeriodType.PER_HOUR.getValue() == parkingTypeCode;
+    }
+
+    @Override
+    public String generateAlertMessage() {
+        return "The system will automatically extend parking for another hour unless the driver turns off the registration.";
+    }
 
     public void validate(ParkingDto parkingDto) {
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(parkingDto.getPaymentMethodId()).orElseThrow();
