@@ -4,7 +4,6 @@ import com.fiap.parking.meter.domain.ParkingDto;
 import com.fiap.parking.meter.entity.PaymentMethodEntity;
 import com.fiap.parking.meter.enums.ParkingPeriodType;
 import com.fiap.parking.meter.enums.PaymentMethodType;
-import com.fiap.parking.meter.enums.PriceHour;
 import com.fiap.parking.meter.repository.PaymentMethodRepository;
 import com.fiap.parking.meter.service.ParkingPeriodStrategy;
 import lombok.AllArgsConstructor;
@@ -38,6 +37,7 @@ public class PerHourImpl implements ParkingPeriodStrategy {
     public String generateAlertMessage() {
         return "The system will automatically extend parking for another hour unless the driver turns off the registration.";
     }
+
 
     public void validate(ParkingDto parkingDto) {
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(parkingDto.getPaymentMethodId()).orElseThrow();

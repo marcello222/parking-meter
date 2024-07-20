@@ -1,7 +1,6 @@
 package com.fiap.parking.meter.controller;
 
 import com.fiap.parking.meter.domain.PaymentMethodDto;
-import com.fiap.parking.meter.entity.ParkingEntity;
 import com.fiap.parking.meter.entity.PaymentMethodEntity;
 import com.fiap.parking.meter.service.PaymentMethodService;
 import io.swagger.v3.oas.annotations.Operation;

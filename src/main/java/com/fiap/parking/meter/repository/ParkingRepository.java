@@ -10,8 +10,9 @@ import java.util.List;
 
 public interface ParkingRepository extends MongoRepository<ParkingEntity, String> {
 
-    List<ParkingEntity> findAllByEndDateIsNullAndStartDateLessThanEqual(LocalDateTime startDate);
+    @Query(value = "{ 'endDate' : { $gte: { $subtract: [?#{new Date()}, 10 * 60 * 1000] }, $lte: ?#{new Date()} } }")
+    List<ParkingEntity> findParkingLotsExpiringWithinRange();
 
-    @Query("{ 'expirationTime' : { $lte: ?0 } }")
-    List<ParkingEntity> findExpiringSoon(LocalDateTime cutoffTime);
+    @Query("{ 'endDate' : { $lte: ?0 } }")
+    List<ParkingEntity> findExpired(LocalDateTime currentTime);
 }

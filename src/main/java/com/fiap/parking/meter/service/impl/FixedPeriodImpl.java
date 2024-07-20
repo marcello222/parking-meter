@@ -36,6 +36,8 @@ public class FixedPeriodImpl implements ParkingPeriodStrategy {
     }
 
 
+
+
     public void validate(ParkingDto parkingDto) {
         if (parkingDto.getParkingTypeCode() == ParkingPeriodType.FIXED_PERIOD.getValue()) {
             if (Objects.isNull(parkingDto.getParkingDuration()) || parkingDto.getParkingDuration() <= 0) {
