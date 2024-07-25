@@ -1,4 +1,4 @@
-package com.fiap.parking.meter.config;
+package com.fiap.parking.meter.config.mongo;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

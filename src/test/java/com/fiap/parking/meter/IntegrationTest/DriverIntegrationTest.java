@@ -97,7 +97,6 @@ public class DriverIntegrationTest {
     public void testUpdateDriver() throws Exception {
         DriverDto driverDto = DriverTemplateDto.driverTemplate();
 
-        // post the driver
         MvcResult result = mockMvc.perform(post("/driver")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(driverDto)))
@@ -107,7 +106,6 @@ public class DriverIntegrationTest {
         String response = result.getResponse().getContentAsString();
         String createdDriverId = JsonPath.parse(response).read("$.id");
 
-        // get the driver
         result = mockMvc.perform(get("/driver/" + createdDriverId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -119,7 +117,6 @@ public class DriverIntegrationTest {
         assertEquals(driverDto.getEmail(), returnedDriverEntity.getEmail());
         assertEquals(driverDto.getAddress(), returnedDriverEntity.getAddress());
 
-        // update the email and address
         driverDto.setEmail("updatedEmail@example.com");
         driverDto.setAddress("updated address");
 
@@ -128,7 +125,6 @@ public class DriverIntegrationTest {
                         .content(objectMapper.writeValueAsString(driverDto)))
                 .andExpect(status().isOk());
 
-        // get the updated driver
         result = mockMvc.perform(get("/driver/" + createdDriverId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -138,41 +134,33 @@ public class DriverIntegrationTest {
         returnedDriverEntity = objectMapper.readValue(response, DriverEntity.class);
 
 
-        // Assert the updated fields
         assertEquals(driverDto.getEmail(), returnedDriverEntity.getEmail());
         assertEquals(driverDto.getAddress(), returnedDriverEntity.getAddress());
     }
 
     @Test
     public void testLinkVehicleToDriver() throws Exception {
-        // Create a DriverDto with vehicles using the template
         DriverDto driverWithVehicles = DriverTemplateDto.driverTemplate();
 
-        // Save the driver to the database to ensure the ID exists
         MvcResult result = mockMvc.perform(post("/driver")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(driverWithVehicles)))
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        // Parse the response to get the created driver's ID
         String response = result.getResponse().getContentAsString();
         String createdDriverId = JsonPath.parse(response).read("$.id");
 
-        // Create the vehicles using the template
         List<VehicleDto> vehicles = VehicleTemplateDto.twoVehiclesTemplate();
 
-        // Perform a POST request to link vehicles to the driver
         result = mockMvc.perform(post("/driver/" + createdDriverId + "/vehicles")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(vehicles)))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        // Parse the response
         response = result.getResponse().getContentAsString();
         DriverEntity returnedDriverEntity= objectMapper.readValue(response, DriverEntity.class);
-
         assertEquals(2, returnedDriverEntity.getVehicles().size());
     }
 

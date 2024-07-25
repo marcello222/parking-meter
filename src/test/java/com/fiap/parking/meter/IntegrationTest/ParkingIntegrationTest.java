@@ -1,5 +1,8 @@
 package com.fiap.parking.meter.IntegrationTest;
 
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.model.PublishRequest;
+import com.amazonaws.services.sns.model.PublishResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.parking.meter.domain.DriverDto;
 import com.fiap.parking.meter.domain.ParkingDto;
@@ -13,6 +16,7 @@ import com.fiap.parking.meter.repository.DriverRepository;
 import com.fiap.parking.meter.repository.ParkingRepository;
 import com.fiap.parking.meter.repository.PaymentMethodRepository;
 import com.fiap.parking.meter.repository.VehicleRepository;
+import com.fiap.parking.meter.service.aws.AwsSnsService;
 import com.fiap.parking.meter.template.DriverTemplateDto;
 import com.fiap.parking.meter.template.ParkingTemplateDto;
 import com.fiap.parking.meter.template.PaymentMethodTemplateDto;
@@ -20,6 +24,7 @@ import com.fiap.parking.meter.template.VehicleTemplateDto;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +33,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -55,8 +62,18 @@ public class ParkingIntegrationTest {
     @Autowired
     VehicleRepository vehicleRepository;
 
+    @Autowired
+    private AwsSnsService awsSnsService;
+
+    private AmazonSNS amazonSNSMock;
+
     @BeforeEach
     public void clearDatabase() {
+        amazonSNSMock = Mockito.mock(AmazonSNS.class);
+        PublishResult mockPublishResult = new PublishResult();
+        mockPublishResult.setMessageId("mockMessageId");
+        when(amazonSNSMock.publish(any(PublishRequest.class))).thenReturn(mockPublishResult);
+
         driverRepository.deleteAll();
         paymentMethodRepository.deleteAll();
         parkingRepository.deleteAll();

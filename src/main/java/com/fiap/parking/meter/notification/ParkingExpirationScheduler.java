@@ -7,6 +7,8 @@ import com.fiap.parking.meter.notification.aws.NotificationService;
 import com.fiap.parking.meter.repository.ParkingRepository;
 import com.fiap.parking.meter.service.ParkingPeriodStrategy;
 import com.fiap.parking.meter.service.ParkingService;
+import com.fiap.parking.meter.service.aws.AwsSnsService;
+import com.fiap.parking.meter.service.aws.MessageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,10 @@ public class ParkingExpirationScheduler {
     @Autowired
     private List<ParkingPeriodStrategy> strategies;
 
+    @Autowired
+    private AwsSnsService awsSnsService;
+
+
     @Scheduled(fixedRate = 3600000)
     public void unifiedCheckAndNotify() {
         LocalDateTime cutoffTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.systemDefault());
@@ -51,9 +57,14 @@ public class ParkingExpirationScheduler {
                     .findFirst()
                     .orElseThrow(() -> new IllegalStateException("Unsupported parking type"));
 
+            // Envia a notificação para os motoristas via SEs da Aws
             String alertMessage = strategy.generateAlertMessage();
             notificationService.sendToDrivers((List<DriverEntity>) parkingEntity.getDriver(), alertMessage);
             parkingService.updateParking(parkingEntity.getId(), parkingEntity.getParkingDuration());
+
+            // Publica a mensagem no tópico SNS
+            awsSnsService.publish(new MessageDto(alertMessage));
+
         });
     }
 
@@ -62,8 +73,11 @@ public class ParkingExpirationScheduler {
         expiredParking.forEach(parkingEntity -> {
             String receiptMessage = ReceiptMessageConstructor.constructReceiptMessage(parkingEntity);
 
+            // Envia a notificação de recibo para os motoristas.
             notificationService.sendToDrivers((List<DriverEntity>) parkingEntity.getDriver(), receiptMessage);
-            parkingService.updateParking(parkingEntity.getId(), parkingEntity.getParkingDuration());
+
+            // Publica a mensagem no tópico SNS
+            awsSnsService.publish(new MessageDto(receiptMessage));
         });
     }
 
