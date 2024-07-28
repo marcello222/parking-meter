@@ -32,6 +32,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -184,7 +187,7 @@ public class ParkingIntegrationTest {
 
         MvcResult getParkingResult = mockMvc.perform(get("/parking/" + parkingId)
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status()
+                .andExpect(status()
                         .isOk()).andReturn();
 
         assertEquals(PaymentMethodType.DEBIT_CARD.getValue(), 2);
@@ -233,11 +236,11 @@ public class ParkingIntegrationTest {
         parkingDto.setParkingTypeCode(ParkingPeriodType.PER_HOUR.getValue());
 
 
-       mockMvc.perform(post("/parking")
+        mockMvc.perform(post("/parking")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(parkingDto)))
                 .andExpect(status().isConflict())
-               .andExpect(content().string("Payment method PIX is not allowed for hourly parking"));
+                .andExpect(content().string("Payment method PIX is not allowed for hourly parking"));
     }
 
     @Test
@@ -282,12 +285,15 @@ public class ParkingIntegrationTest {
         parkingDto.setParkingDuration(null);
         parkingDto.setParkingTypeCode(ParkingPeriodType.FIXED_PERIOD.getValue());
 
-        mockMvc.perform(post("/parking")
+
+        result = mockMvc.perform(post("/parking")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(parkingDto)))
                 .andExpect(status().isConflict())
-                .andExpect(content().string("Parking duration is required for fixed period parking"));
+                .andExpect(content().string("A duração do estacionamento é necessária para estacionamento por período fixo"))
+                .andReturn();
     }
+
 
     @Test
     public void testShouldCreatedParking_with_ParkingPeriodType_FIXED_PERIOD_with_ParkingDuration() throws Exception {
@@ -329,22 +335,22 @@ public class ParkingIntegrationTest {
         parkingDtoRequest.setPaymentMethodId(paymentMethodId);
         parkingDtoRequest.setVehicleId(vehicleId);
         parkingDtoRequest.setParkingDuration(2);
-        parkingDtoRequest.setValue(2*PriceHour.PRICER_HOUR.getValue());
+        parkingDtoRequest.setValue(2 * PriceHour.PRICER_HOUR.getValue());
         parkingDtoRequest.setParkingTypeCode(ParkingPeriodType.FIXED_PERIOD.getValue());
 
-        result= mockMvc.perform(post("/parking")
+        result = mockMvc.perform(post("/parking")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(parkingDtoRequest)))
-                        .andExpect(status().isCreated())
-                        .andReturn();
+                .andExpect(status().isCreated())
+                .andReturn();
 
         String response = result.getResponse().getContentAsString();
         String createdParking = JsonPath.parse(response).read("$.id");
 
         result = mockMvc.perform(get("/parking/" + createdParking)
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk())
-                        .andReturn();
+                .andExpect(status().isOk())
+                .andReturn();
 
         response = result.getResponse().getContentAsString();
         ParkingEntity parkingEntityResponse = objectMapper.readValue(response, ParkingEntity.class);
@@ -394,7 +400,7 @@ public class ParkingIntegrationTest {
         parkingDtoRequest.setVehicleId(vehicleId);
         parkingDtoRequest.setParkingTypeCode(ParkingPeriodType.PER_HOUR.getValue());
 
-        result= mockMvc.perform(post("/parking")
+        result = mockMvc.perform(post("/parking")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(parkingDtoRequest)))
                 .andExpect(status().isCreated())

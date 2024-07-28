@@ -1,5 +1,6 @@
 package com.fiap.parking.meter.service.impl;
 
+import com.fiap.parking.meter.config.i18n.i18NConstants;
 import com.fiap.parking.meter.domain.ParkingDto;
 import com.fiap.parking.meter.entity.PaymentMethodEntity;
 import com.fiap.parking.meter.enums.ParkingPeriodType;
@@ -35,7 +36,7 @@ public class PerHourImpl implements ParkingPeriodStrategy {
 
     @Override
     public String generateAlertMessage() {
-        return "The system will automatically extend parking for another hour unless the driver turns off the registration.";
+        return i18NConstants.SYSTEM_AUTOMATICALLY_EXTEND_PARKING_ANOTHER_HOUR_UNLESS_DRIVER_TURNS_OFF_REGISTRATION;
     }
 
 
