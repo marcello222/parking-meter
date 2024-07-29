@@ -67,7 +67,7 @@ opções flexíveis de pagamento e emissão de recibos.
 **1.2. Fluxo de Notificações**
 
 <p align="center">
-    <img src="docs/Notificacao.jpg" alt="Fluxo de Notificações" />
+    <img src="docs/notificacao.jpg" alt="Fluxo de Notificações" />
 </p>
 
 [Download PDF](docs/notificacao.pdf)
