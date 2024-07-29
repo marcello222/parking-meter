@@ -70,7 +70,7 @@ opções flexíveis de pagamento e emissão de recibos.
     <img src="docs/notificacao.jpg" alt="Fluxo de Notificações" />
 </p>
 
-[Download PDF](docs/notificacao.pdf)
+[Download PDF](docs/Notificacao.pdf)
 
 **6.1  **_Notificar Motoristas com Tempo Expirando_**
 
