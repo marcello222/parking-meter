@@ -237,7 +237,7 @@ public class ParkingIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(parkingDto)))
                 .andExpect(status().isConflict())
-                .andExpect(content().string("Payment method PIX is not allowed for hourly parking"));
+                .andExpect(content().string("Forma de pagamento PIX não é permitida para estacionamento por hora"));
     }
 
     @Test

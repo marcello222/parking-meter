@@ -1,0 +1,351 @@
+{
+	"info": {
+		"_postman_id": "98e91d3d-f765-4e6c-98de-15efae256bca",
+		"name": "PARKINGMETER",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16007703",
+		"_collection_link": "https://universal-trinity-300653.postman.co/workspace/New-Team-Workspace~08fb73dc-c7f8-41fa-b4f9-772c5ffc1c6c/collection/16007703-98e91d3d-f765-4e6c-98de-15efae256bca?action=share&source=collection_link&creator=16007703"
+	},
+	"item": [
+		{
+			"name": "DRIVER",
+			"item": [
+				{
+					"name": "CRIAR DRIVER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"marcello segundo teste\",\r\n    \"email\": \"ola1234@email.com\",\r\n    \"phone\": \"123445\",\r\n    \"address\": \"Rua Alfred\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/driver",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BUSCAR DRIVER POR ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/driver/6685e21457be566384f516bd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver",
+								"6685e21457be566384f516bd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LISTAR TODOS DRIVERS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/driver",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADICIONAR VEICULOS NO DRIVER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"plate\": \"ABC-1234\",\r\n    \"model\": \"Modelo do Veículo 1\",\r\n    \"color\": \"Cor do Veículo 1\"\r\n  },\r\n  {\r\n    \"plate\": \"XYZ-5678\",\r\n    \"model\": \"Modelo do Veículo 2\",\r\n    \"color\": \"Cor do Veículo 2\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/driver/668aa67cb6b6d15976e36d88/vehicles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver",
+								"668aa67cb6b6d15976e36d88",
+								"vehicles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ATUALIZAR DRIVER",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"criando motorista com estacionamento\",\r\n    \"email\": \"ola1442333334@email.com\",\r\n    \"phone\": \"eeeeeee\",\r\n    \"address\": \"Rua e3eeee\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/driver/668d9095ec7da6202d9eb1c9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"driver",
+								"668d9095ec7da6202d9eb1c9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "VEHICLE",
+			"item": [
+				{
+					"name": "CRIAR VEHICLE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"licensePlate\": \"XYZ789\",\r\n    \"model\": \"Tesla Model S\",\r\n    \"color\": \"Red\",\r\n    \"driverId\": \"6685e21457be566384f516bd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehicle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehicle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BUSCAR VEICULO POR ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/vehicle/6685e21f57be566384f516be",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehicle",
+								"6685e21f57be566384f516be"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LISTAR TODOS VEICULOS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/vehicle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehicle"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PAYMENT-METHOD",
+			"item": [
+				{
+					"name": "CRIAR METODO DE PAGAMENTO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Metodo  escolhido\",\r\n    \"paymentMethod\": 1,\r\n    \"driverId\": \"668a843a6f470a19ea81eaa2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/payment-method",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payment-method"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ATUALIZAR METODO DE PAGAMENTO",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Metodo Preferido asasas\",\r\n    \"paymentMethod\": 1,\r\n    \"driverId\": \"668d9095ec7da6202d9eb1c9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/payment-method/668d90b4ec7da6202d9eb1ca",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payment-method",
+								"668d90b4ec7da6202d9eb1ca"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PARKING",
+			"item": [
+				{
+					"name": "CRIA UM ESTACIONAMENTO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"startDate\":\"2022-03-01T12:00:00\",\r\n  \"endDate\":\"2022-03-01T13:00:00\",\r\n  \"parkingTypeCode\":1,\r\n  \"value\":10.0,\r\n  \"vehicleId\":\"668d89a0b3bdbd58d5646548\",\r\n  \"driverId\":\"668d896eb3bdbd58d5646547\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/parking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"parking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SAIDA ESTACIONAMENTO",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parkingDuration\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/parking/669bd56dde76851dd487c376",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"parking",
+								"669bd56dde76851dd487c376"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

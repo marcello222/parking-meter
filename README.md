@@ -123,7 +123,13 @@ Construção da Aplicação:
 - **Portabilidade:** O Docker permite que a aplicação seja executada em qualquer lugar, independentemente do sistema operacional ou ambiente local.
 - **Facilidade de Uso:** O Docker simplifica o processo de construção e execução da aplicação, eliminando a necessidade de configurar manualmente o ambiente de desenvolvimento.
 
-9. ### **_Cobertura de Testes Integrados_**
+
+9. ### **_Criação dos dados da API no Postman_**
+
+[Download.postman_collection.json](docs%2FPARKINGMETER.postman_collection.json)
+
+
+10. ### **_Cobertura de Testes Integrados_**
 
 Os testes de integração cobrem toda a funcionalidade do sistema, garantindo que todos os componentes funcionem corretamente juntos.
 

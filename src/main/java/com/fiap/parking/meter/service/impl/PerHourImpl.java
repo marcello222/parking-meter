@@ -11,7 +11,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.ResourceBundle;
 
 
 @AllArgsConstructor
@@ -44,7 +46,9 @@ public class PerHourImpl implements ParkingPeriodStrategy {
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(parkingDto.getPaymentMethodId()).orElseThrow();
         if (parkingDto.getParkingTypeCode() == ParkingPeriodType.PER_HOUR.getValue()) {
             if (paymentMethod.getPaymentMethod() == PaymentMethodType.PIX.getValue()) {
-                throw new DataIntegrityViolationException("Payment method PIX is not allowed for hourly parking");
+                String errorMessageTemplate = ResourceBundle.getBundle("i18n/message").getString(i18NConstants.PAYMENT_METHOD_PIX_NOT_ALLOWED_HOURLY_PARKING);
+                String errorMessage = MessageFormat.format(errorMessageTemplate, parkingDto.getParkingTypeCode());
+                throw new DataIntegrityViolationException(errorMessage);
             }
         }
     }

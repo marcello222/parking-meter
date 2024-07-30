@@ -14,6 +14,8 @@ public class i18NConstants {
 
     //BusinessException
     public static final String PARKING_DURATION_REQUIRED_FIXED_PERIOD_PARKING= "error.parking.duration.required.for.fixed.period.parking";
+    public static final String PAYMENT_METHOD_PIX_NOT_ALLOWED_HOURLY_PARKING= "error.payment.method.pix.is.not.allowed.hourly.parking";
+
 
     //Messages for notifications
     public static final String FIXED_PERIOD_PARKING_EXPIRATION = "message.fixed.period.parking.about.to.expire";
